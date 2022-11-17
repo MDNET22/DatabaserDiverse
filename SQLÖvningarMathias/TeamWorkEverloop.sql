@@ -104,3 +104,14 @@
 
 --SELECT [Name], CONCAT('#', CONVERT(VARCHAR(max), code, 2)) AS newCode, Red, Green, Blue FROM Colors6;
 
+SELECT * FROM Types;
+
+--select [Integer], [String] into Types2 from Types;
+
+SELECT [Integer], [Integer]*0.01 AS [Float], 
+[String],
+CASE 
+    WHEN [Integer]%2 = 0 THEN 0
+    ELSE 1
+END AS [Bool],
+DATEADD(YEAR, -3, '2022/01/01')+[Integer]-1 AS [DateTime] FROM Types2;
