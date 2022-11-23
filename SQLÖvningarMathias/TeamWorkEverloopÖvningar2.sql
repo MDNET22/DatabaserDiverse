@@ -86,13 +86,38 @@
 -- Av alla audiospår, vilken artist har längst total speltid?
 
 
-declare @playlist varchar(max) = 'Heavy Metal Classic';
+--declare @playlist varchar(max) = 'Heavy Metal Classic';
 
-select * from music.tracks
-join music.albums on music.tracks.AlbumId = music.albums.AlbumId
-join music.artists on music.albums.Artistid = music.artists.ArtistId
-join music.genres on music.tracks.GenreId = music.genres.GenreId
-join music.playlist_track ON music.tracks.TrackId = music.playlist_track.TrackId
-where PlaylistId = 17;
+--select * from music.tracks
+--join music.albums on music.tracks.AlbumId = music.albums.AlbumId
+--join music.artists on music.albums.Artistid = music.artists.ArtistId
+--join music.genres on music.tracks.GenreId = music.genres.GenreId
+--join music.playlist_track ON music.tracks.TrackId = music.playlist_track.TrackId
+--where PlaylistId = 17;
 
 -- Genre 	Artist 	Album 	Track 	Length 	Size 	Composer
+
+--select * into music.tracks2 from music.tracks;
+
+-- Byta ut null mot .
+--update music.tracks
+--set Composer = '-'
+--where Composer is null;
+
+--SELECT genres.Name AS Genre, artists.Name AS Artist, albums.Title AS Album, tracks.Name AS Track, Milliseconds AS Length, Bytes AS Size, Composer
+--FROM music.tracks 
+--JOIN music.albums ON music.tracks.AlbumId = music.albums.AlbumId
+--JOIN music.artists ON music.albums.Artistid = music.artists.ArtistId
+--JOIN music.genres ON music.tracks.GenreId = music.genres.GenreId
+--JOIN music.playlist_track ON music.tracks.TrackId = music.playlist_track.TrackId
+--WHERE PlaylistId = 17;
+
+SELECT genres.Name AS Genre, artists.Name AS Artist, albums.Title AS Album, tracks.Name AS Track, 
+RIGHT(CONVERT(CHAR(8),DATEADD(second, (Milliseconds / (1000)), 0),108),5) AS Length,
+CONCAT(ROUND(CONVERT(float, Bytes / CONVERT(float, 1048576)), 1), ' MiB') AS Size, Composer
+FROM music.tracks
+JOIN music.albums ON music.tracks.AlbumId = music.albums.AlbumId
+JOIN music.artists ON music.albums.Artistid = music.artists.ArtistId
+JOIN music.genres ON music.tracks.GenreId = music.genres.GenreId
+JOIN music.playlist_track ON music.tracks.TrackId = music.playlist_track.TrackId
+WHERE PlaylistId = 17;
