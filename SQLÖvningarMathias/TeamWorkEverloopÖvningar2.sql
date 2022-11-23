@@ -52,9 +52,9 @@
 
 -- Övning 5 // Från vilken leverantör har vi sålt flest produkter totalt under sommaren 2013?
 
-select * from company.products
-select * from company.suppliers;
-select * from company.order_details
+--select * from company.products
+--select * from company.suppliers;
+--select * from company.orders
 
 --SELECT * from company.orders 
 --WHERE OrderDate >= '2013-06-01' AND OrderDate < '2013-09-01';
@@ -65,11 +65,34 @@ select * from company.order_details
 --join company.products on company.order_details.ProductId = company.products.Id
 --join company.suppliers on  
 
-SELECT CompanyName, COUNT(DISTINCT company.orders.Id) AS SumOrders FROM company.orders 
-JOIN company.order_details ON company.orders.Id = company.order_details.OrderId
-JOIN company.products ON company.order_details.ProductId = company.products.Id 
-JOIN company.suppliers ON company.products.SupplierId = company.suppliers.Id
-WHERE OrderDate >= '2013-06-01' AND OrderDate < '2013-09-01'
-GROUP BY CompanyName
-ORDER BY SumOrders DESC;
+--SELECT CompanyName, COUNT(DISTINCT company.orders.Id) AS SumOrders FROM company.orders 
+--JOIN company.order_details ON company.orders.Id = company.order_details.OrderId
+--JOIN company.products ON company.order_details.ProductId = company.products.Id 
+--JOIN company.suppliers ON company.products.SupplierId = company.suppliers.Id
+--WHERE OrderDate >= '2013-06-01' AND OrderDate < '2013-09-01'
+--GROUP BY CompanyName
+--ORDER BY SumOrders DESC;
 
+--SELECT top 1 CompanyName,  SUM(Quantity) AS SumProducts FROM company.orders 
+--JOIN company.order_details ON company.orders.Id = OrderId
+--JOIN company.products ON company.order_details.ProductId = company.products.Id
+--join company.suppliers ON company.products.SupplierId = company.suppliers.Id
+--WHERE OrderDate >= '2013-06-01' AND OrderDate < '2013-09-01'
+--GROUP BY CompanyName
+--ORDER BY SumProducts DESC;
+
+---- Svar på uppgift 5
+
+-- Av alla audiospår, vilken artist har längst total speltid?
+
+
+declare @playlist varchar(max) = 'Heavy Metal Classic';
+
+select * from music.tracks
+join music.albums on music.tracks.AlbumId = music.albums.AlbumId
+join music.artists on music.albums.Artistid = music.artists.ArtistId
+join music.genres on music.tracks.GenreId = music.genres.GenreId
+join music.playlist_track ON music.tracks.TrackId = music.playlist_track.TrackId
+where PlaylistId = 17;
+
+-- Genre 	Artist 	Album 	Track 	Length 	Size 	Composer
