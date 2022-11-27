@@ -6,10 +6,10 @@
 --Därutöver vill vi ha kolumnerna: Förnamn, Efternamn och Födelsedatum i passande datatyper.
 
 --CREATE TABLE Författare (
---    ID int,
---    Förnamn varchar(255),
+--    ID int NOT NULL PRIMARY KEY,
+--    Förnamn varchar(255) NOT NULL,
 --    Efternamn varchar(255),
---    Födelsedatum varchar(255),
+--    Födelsedatum int
 --);
 
 --I tabellen böcker vill vi ha ISBN13 som primärnyckel med lämpliga constraints.
@@ -18,19 +18,19 @@
 --Utöver dessa kolumner får du gärna lägga till egna med information som du tycker kan vara bra att lagra om varje bok.
 
 --CREATE TABLE Böcker (
---    ISBN13 int,
+--    ISBN13 NUMBER (13) NOT NULL PRIMARY KEY,
 --    Titel varchar(255),
 --    Språk varchar(255),
---    Pris varchar(255),
+--    Pris int(255),
 --    Utgivningsdatum varchar(255),
---	  FörfattareID varchar(255)
+--	  FörfattareID int FOREIGN KEY REFERENCES Författare(ID)
 --);
 
 --Utöver ett identity-ID så behöver tabellen kolumner för att lagra butiksnamn samt addressuppgifter.
 
 --CREATE TABLE Butiker (
---    ID int,
---    Butiksnamn varchar(255),
+--    ID int NOT NULL,
+--    Butiksnamn varchar(50),
 --    Adressuppgifter varchar(255)
 --);
 
@@ -38,8 +38,8 @@
 --samt Antal som säger hur många exemplar det finns av en given bok i en viss butik. Som PK vill vi ha en kompositnyckel på kolumnerna ButikID och ISBN.
 
 --CREATE TABLE LagerSaldo (
---    ButikID int,
---    ISBN int(255),
+--    ButikID int FOREIGN KEY REFERENCES Butiker(ID),
+--    ISBN NUMBER (13) NOT NULL FOREIGN KEY REFERENCES Böcker(ISBN13),
 --    Antal int(255),
 --);
 
