@@ -30,7 +30,7 @@
 
 --CREATE TABLE butiker (
 --    ID int NOT NULL,
---    Butiksnamn varchar(50),
+--    Butiksnamn varchar(100),
 --    Adressuppgifter varchar(255)
 --);
 
