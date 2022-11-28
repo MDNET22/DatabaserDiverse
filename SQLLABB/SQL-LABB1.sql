@@ -1,14 +1,14 @@
---CREATE DATABASE BSdb;
+--CREATE DATABASE bookstores_db;
 
---USE BSdb;
+--USE bookstores_db;
 
 --I tabellen författare vill vi ha en ”Identietskolumn” (identity) kallad ID som PK.
 --Därutöver vill vi ha kolumnerna: Förnamn, Efternamn och Födelsedatum i passande datatyper.
 
---CREATE TABLE Författare (
+--CREATE TABLE författare (
 --    ID int NOT NULL PRIMARY KEY,
---    Förnamn varchar(255) NOT NULL,
---    Efternamn varchar(255),
+--    Förnamn varchar(50) NOT NULL,
+--    Efternamn varchar(50) NOT NULL,
 --    Födelsedatum int
 --);
 
@@ -17,18 +17,18 @@
 --Sist vill vi ha en FK-kolumn ”FörfattareID” som pekar mot tabellen ”Författare”.
 --Utöver dessa kolumner får du gärna lägga till egna med information som du tycker kan vara bra att lagra om varje bok.
 
---CREATE TABLE Böcker (
+--CREATE TABLE böcker (
 --    ISBN13 NUMBER (13) NOT NULL PRIMARY KEY,
---    Titel varchar(255),
---    Språk varchar(255),
---    Pris int(255),
---    Utgivningsdatum varchar(255),
+--    Titel nvarchar(50) NOT NULL,
+--    Språk nvarchar(50) NOT NULL,
+--    Pris DECIMAL(12, 2),
+--    Utgivningsdatum DATETIME2,
 --	  FörfattareID int FOREIGN KEY REFERENCES Författare(ID)
 --);
 
 --Utöver ett identity-ID så behöver tabellen kolumner för att lagra butiksnamn samt addressuppgifter.
 
---CREATE TABLE Butiker (
+--CREATE TABLE butiker (
 --    ID int NOT NULL,
 --    Butiksnamn varchar(50),
 --    Adressuppgifter varchar(255)
@@ -37,7 +37,7 @@
 --I denna tabell vill vi ha 3 kolumner: ButikID som kopplas mot Butiker, ISBN som kopplas mot böcker,
 --samt Antal som säger hur många exemplar det finns av en given bok i en viss butik. Som PK vill vi ha en kompositnyckel på kolumnerna ButikID och ISBN.
 
---CREATE TABLE LagerSaldo (
+--CREATE TABLE lagerSaldo (
 --    ButikID int FOREIGN KEY REFERENCES Butiker(ID),
 --    ISBN NUMBER (13) NOT NULL FOREIGN KEY REFERENCES Böcker(ISBN13),
 --    Antal int(255),
