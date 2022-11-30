@@ -171,3 +171,11 @@ Values
 ('4', 'Bror', 'Nelson', '87243', 'Bror.nelson@dodgit.com', '31');
 
 
+--Vi vill även ha en vy som sammanställer data från tabellerna.
+--Vyn ska innehålla följande 4 kolumner (med en rad per författare):
+--”Namn” – Hela namnet på författaren. ”Ålder” – Hur gammal författaren är.
+--”Titlar” – Hur många olika titlar vi har i ”Böcker” av den angivna författaren.
+--”Lagervärde” – Totala värdet (pris) för författarens böcker i samtliga butiker.
+--Exempel data: ”select top 1 * from TitlarPerFörfattare” Namn
+--Ålder Titlar Lagervärde Emma Askling 43 år 3 st 4182 kr
+
