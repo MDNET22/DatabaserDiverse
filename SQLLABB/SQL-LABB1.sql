@@ -57,9 +57,9 @@
 -- Antal ordrar?
 
 --CREATE TABLE kunder (
---    [ButikID] int FOREIGN KEY REFERENCES Butiker(ID),
---    [ISBN] NUMBER (13) NOT NULL FOREIGN KEY REFERENCES Böcker(ISBN13),
---    [Antal] int(255),
+--    [KundID] ,
+--    []  ()  (),
+--    [Antal] (),
 --);
 
 --ordrar
@@ -67,17 +67,17 @@
 
 
 --CREATE TABLE ordrar (
---    [ButikID] int FOREIGN KEY REFERENCES Butiker(ID),
---    [ISBN] NUMBER (13) NOT NULL FOREIGN KEY REFERENCES Böcker(ISBN13),
---    [Antal] int(255),
+--    [KundID] ,
+--    []  ,
+--    [] ,
 --);
 
 --förlag
 
 --CREATE TABLE förlag (
---    [ButikID] int FOREIGN KEY REFERENCES Butiker(ID),
---    [ISBN] NUMBER (13) NOT NULL FOREIGN KEY REFERENCES Böcker(ISBN13),
---    [Antal] int(255),
+--    [] ,
+--    [] ,
+--    [] ,
 --);
 
 
