@@ -1,47 +1,107 @@
 --CREATE DATABASE bookstores_db;
 
---USE bookstores_db;
+USE bookstores_db;
 
 --I tabellen författare vill vi ha en ”Identietskolumn” (identity) kallad ID som PK.
 --Därutöver vill vi ha kolumnerna: Förnamn, Efternamn och Födelsedatum i passande datatyper.
 
---CREATE TABLE författare (
---    [ID] int NOT NULL PRIMARY KEY,
---    [Förnamn] varchar(50) NOT NULL,
---    [Efternamn] varchar(50) NOT NULL,
---    [Födelsedatum] int
---);
+CREATE TABLE Författare (
+Id int NOT NULL,
+Förnamn nvarchar(50) NOT NULL,
+Efternamn nvarchar(50) NOT NULL,
+Födelsedatum Date,
+CONSTRAINT PK_Id		PRIMARY KEY (Id)
+);
+
+INSERT INTO Författare (Id, Förnamn, Efternamn, Födelsedatum)
+VALUES
+('1', 'Andy', 'Weir', '1972-06-16'),
+('2', 'Annie', 'Ernaux', '1940-09-01'),
+('3', 'Lars', 'Kepler', '1967-01-20'),
+('4', 'Stefan', 'Ekengren','1972-06-16'); 
 
 --I tabellen böcker vill vi ha ISBN13 som primärnyckel med lämpliga constraints.
 --Utöver det vill vi ha kolumnerna: Titel, Språk, Pris, och Utgivningsdatum av passande datatyper.
 --Sist vill vi ha en FK-kolumn ”FörfattareID” som pekar mot tabellen ”Författare”.
 --Utöver dessa kolumner får du gärna lägga till egna med information som du tycker kan vara bra att lagra om varje bok.
 
---CREATE TABLE böcker (
---    [ISBN13] NUMBER (13) NOT NULL PRIMARY KEY,
---    [Titel] nvarchar(max) NOT NULL,
---    [Språk] nvarchar(max) NOT NULL,
---    [Pris] DECIMAL(12, 2),
---    [Utgivningsdatum] DATETIME2,
---	  [FörfattareID] int FOREIGN KEY REFERENCES Författare(ID)
---);
+CREATE TABLE Böcker (
+ISBN varchar CHECK (LEN(ISBN) = 13) NOT NULL,
+Titel nvarchar(max) NOT NULL,
+Språk nvarchar(max) NOT NULL,
+Pris int,
+Sidor int,
+Vikt int,
+Utgivningsdatum DATE,
+FörlagId int NOT NULL,
+FörfattareId int,
+
+CONSTRAINT PK_ISBN				PRIMARY KEY (ISBN),
+CONSTRAINT FK_FörfattareID		FOREIGN KEY (FörfattareId) REFERENCES Författare (Id),
+CONSTRAINT FK_FörlagId			FOREIGN KEY (FörlagId) REFERENCES Förlag (FörlagId)
+);
+
+
+INSERT INTO Böcker (ISBN, Titel, Språk, Pris, Sidor, Utgivningsdatum, FörlagId, FörfattareID) 
+VALUES
+('9780553418026', 'The Martian', 'Engelska', '203', '416', '295', '2014-10-01', 'Ballantine ', '1'),
+
+('9780593355275', 'Project Hail Mary', 'Engelska', '215', '496', '638', '2021-05-04', 'Random House US', '1'),
+
+('9780553418026', 'Åren', 'Svenska', '203', '279', '428', '2022-10-24', 'Norstedts', '2'),
+
+('9782070402472', 'Les annees', 'Franska', ' 242', '253', '160', '2010-01-10', 'Gallimard', '2'),
+
+('9780553418026', 'Une Femme', 'Franska', '80', '93', '54', '1991-12-01', 'Reclam Philipp Jun', '2'),
+
+('9789100167110', 'Spindeln', 'Svenska', '209', '544', '598', '2022-10-19', 'Alrbert Bonniers Förlag', '3'),
+
+('9780553418026', 'Eldvittnet', 'Svenska', '75', '561', '307', '2022-10-24', 'Månpocket', '3'),
+
+('9780553418026', 'Spegelmannen', 'Svenska', '75', '522', '280', '2021-11-11', 'Albert Bonniers Förlag', '3'),
+
+('9780553418026', 'Sandmannen', 'Svenska', '203', '416', '295', '2022-10-24', 'Månpocket', '3'),
+
+('9789127179554', 'Potatis', 'Svenska', '249', '189', '888', '2022-10-24', 'Natur Kultur Allmänlitteratur', '4');
 
 --Utöver ett identity-ID så behöver tabellen kolumner för att lagra butiksnamn samt addressuppgifter.
 
---CREATE TABLE butiker (
---    [ID] int NOT NULL,
---    [Butiksnamn] nvarchar(max),
---    [Adressuppgifter] nvarchar(max)
---);
+CREATE TABLE Butiker (
+ButikId int NOT NULL,
+Butiksnamn nvarchar(max),
+Adressuppgifter nvarchar(max),
+
+CONSTRAINT PK_ButikId		PRIMARY KEY (ButikId)
+);
+
+
+INSERT INTO Butiker (ButikId, Butiksnamn, Adressuppgifter)
+VALUES
+(1, value2, value3, ...),
+(1, value2, value3, ...),
+(1, value2, value3, ...),
+; 
+
+
 
 --I denna tabell vill vi ha 3 kolumner: ButikID som kopplas mot Butiker, ISBN som kopplas mot böcker,
 --samt Antal som säger hur många exemplar det finns av en given bok i en viss butik. Som PK vill vi ha en kompositnyckel på kolumnerna ButikID och ISBN.
 
---CREATE TABLE lagerSaldo (
---    [ButikID] int FOREIGN KEY REFERENCES Butiker(ID),
---    [ISBN] NUMBER (13) NOT NULL FOREIGN KEY REFERENCES Böcker(ISBN13),
---    [Antal] int(255),
---);
+CREATE TABLE LagerSaldo (
+ButikId int NOT NULL,
+ISBN varchar CHECK (LEN(ISBN) = 13) NOT NULL,
+Antal int,
+
+CONSTRAINT FK_ButikId_Butiker		FOREIGN KEY(ButikId) REFERENCES Butiker(ButikId), 
+CONSTRAINT FK_ISBN_Böcker			FOREIGN KEY(ISBN) REFERENCES Böcker(ISBN),
+CONSTRAINT CK_LagerSaldo			PRIMARY KEY(ButikId, ISBN)
+);
+
+
+
+INSERT INTO LagerSaldo (ID, Förnamn, Efternamn, Födelsedatum)
+VALUES 
+(value1, value2, value3, ...); 
 
 --De 4 tabellerna som är specificerade ovan är ett minimum att implementera. Utöver det ska du dock lägga till ytterligare minst 2 tabeller 
 --(minst 4 för VG) med information som kan vara lämplig att lagra för bokhandelns syfte, och skapa nycklar och relationer mellan dessa.
@@ -50,43 +110,37 @@
 --Eventuellt kan vi behöva uppdatera våra 4 tidigare tabeller med kolumner för att relatera till de nya.
 
 
+CREATE TABLE Kunder (
+KundId int NOT NULL,
+Förnamn nvarchar (100),		
+Efternamn nvarchar (100),
+Postnummer varchar CHECK (LEN(Postnummer) = 5),
+Epost nvarchar UNIQUE,
 
--- kunder
---Kundnummer?
--- e-mail adress? Unique
--- Antal ordrar?
-
---CREATE TABLE kunder (
---    [KundID] ,
---    []  ()  (),
---    [Antal] (),
---);
-
---ordrar
--- FK till kundnummer? email?
+CONSTRAINT PK_KundId		PRIMARY KEY(KundId)
+);
 
 
---CREATE TABLE ordrar (
---    [KundID] ,
---    []  ,
---    [] ,
---);
+CREATE TABLE Förlag (
+FörlagId int NOT NULL,
+Förlagsnamn nvarchar (100),
 
---förlag
+CONSTRAINT PK_FörlagId		PRIMARY KEY(FörlagId)
+);
 
---CREATE TABLE förlag (
---    [] ,
---    [] ,
---    [] ,
---);
+INSERT INTO Förlag (FörlagId, Förlagsnamn)
+Values
+('1', 'Albert Bonniers Förlag')
+('2', 'Ballantine Books')
+('3', 'Gallimard')
+('4', 'Månpocket')
+('5', 'Natur Kultur Allmänlitteratur')
+('6', 'Norstedts')
+('7', 'Reclam Philipp Jun');
 
-
-
--- Create table 
-
---Syntax Create table tabellnamn (
-	--	kolumn1 datatyp, ..
-	--	Kolumn datatyp,
-
-	--	datetime2 datum tid 
-
+Norstedts
+Random House US
+Gallimard
+Reclam Philipp Jun
+Månpocket
+Natur Kultur Allmänlitteratur
