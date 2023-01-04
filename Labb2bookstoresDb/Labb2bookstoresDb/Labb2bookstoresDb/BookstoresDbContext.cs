@@ -28,17 +28,6 @@ public partial class BookstoresDbContext : DbContext
 
     public virtual DbSet<LagerSaldo> LagerSaldos { get; set; }
 
-
-
-    public List<LagerSaldo> GetLagerSaldosForButik(int butikId)
-    {
-        return LagerSaldos
-            .Join(Böckers, l => l.Isbn, b => b.Isbn, (l, b) => new { LagerSaldo = l, Bok = b })
-            .Where(l => l.LagerSaldo.ButikId == butikId)
-            .Select(l => l.LagerSaldo)
-            .ToList();
-    }
-
     public virtual DbSet<VTitlarPerFörfattare> VTitlarPerFörfattares { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
